@@ -1,11 +1,19 @@
 package com.cos.blog.config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration // IoC 등록
 @EnableWebSecurity // 필터 체인 관리 시작 어노테이션 
@@ -22,13 +30,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 필요한 
 		http.csrf().disable();
 		http.authorizeRequests()
 //			.antMatchers("/user", "/post").authenticated() // /user, /post 는 인증만 검사
-			.antMatchers("/user", "/post").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") // 인증, 권한 검사  ROLE은 강제성이 있음. 검증시에
-			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')") // 인증, 권한 검사
+			.antMatchers("/user/**", "/post/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") // 인증, 권한 검사  ROLE은 강제성이 있음. 검증시에
+			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // 인증, 권한 검사
 			.anyRequest().permitAll() // 나머지는 다 허가 해줌.
 			.and()
 			.formLogin() // x-www-form-urlencoded만 가능 json은 못받음
 			.loginPage("/loginForm")
 			.loginProcessingUrl("/login") // 스프링 시큐리티가 포스트방식에 /login이 들어오면 낚아챔.
-			; 
+//			.successHandler(new AuthenticationSuccessHandler() { // 무조건 로그인시 /로 이동
+//				
+//				@Override
+//				public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//						Authentication authentication) throws IOException, ServletException {
+//					response.sendRedirect("/");
+//				}
+//			});
+			.defaultSuccessUrl("/"); 
 	}
 }
