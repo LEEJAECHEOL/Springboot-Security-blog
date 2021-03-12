@@ -44,4 +44,11 @@ spring:
             scope: # 이 구글에서 제공하는 정보가 먼지 물어봄.
             - email
             - profile
+          facebook:
+             # 내가 구글쪽에 접속할 아이디
+            client-id: 182477516777610
+            client-secret: 02197a7f395fcce55d32bfd12a57631a
+            scope:
+            - email
+            - public_profile
       

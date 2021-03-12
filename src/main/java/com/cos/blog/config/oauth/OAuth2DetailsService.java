@@ -25,7 +25,9 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		
 		System.out.println("OAuth 로그인 진행중..........");
+		
 		System.out.println(userRequest.getAccessToken());
 		// 회원정보 요청 -> userRequest.getAccessToken().getTokenValue() 이토큰으로
 		
@@ -49,7 +51,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 		if(userRequest.getClientRegistration().getClientName().equals("Google")) {
 			auth2UserInfo = new GoogleInfo(oauth2User.getAttributes());	
 		} else if(userRequest.getClientRegistration().getClientName().equals("Facebook")) {
-			
+			auth2UserInfo = new FacebookInfo(oauth2User.getAttributes());
 		}
 		
 		// 2. 최초 : 회원가입 + 로그인,  최초가 아닐 때 : 로그
