@@ -15,9 +15,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.cos.blog.config.oauth.OAuth2DetailsService;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration // IoC 등록
 @EnableWebSecurity // 필터 체인 관리 시작 어노테이션 
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // 필요한 것만 구현할려고 어댑터 사용
+
+	private final OAuth2DetailsService oAuth2DetailsService;
 	
 	// IoC등록만 하면 AuthenticationManager가 Bcrypt로 자동 검증해줌.
 	@Bean
@@ -37,14 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 필요한 
 			.formLogin() // x-www-form-urlencoded만 가능 json은 못받음
 			.loginPage("/loginForm")
 			.loginProcessingUrl("/login") // 스프링 시큐리티가 포스트방식에 /login이 들어오면 낚아챔.
-//			.successHandler(new AuthenticationSuccessHandler() { // 무조건 로그인시 /로 이동
-//				
-//				@Override
-//				public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//						Authentication authentication) throws IOException, ServletException {
-//					response.sendRedirect("/");
-//				}
-//			});
-			.defaultSuccessUrl("/"); 
+			.defaultSuccessUrl("/")
+			.and()
+			.oauth2Login()
+			.userInfoEndpoint()
+			// ClientRegistrationRepository' that could not be found -> registration정보를 세팅해주어야함 application가서 설정하
+			.userService(oAuth2DetailsService) 
+			
+			
+			; 
 	}
 }

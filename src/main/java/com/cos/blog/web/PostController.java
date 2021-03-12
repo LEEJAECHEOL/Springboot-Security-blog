@@ -2,11 +2,17 @@ package com.cos.blog.web;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.blog.config.auth.PrincipalDetails;
 import com.cos.blog.domain.post.Post;
@@ -23,8 +29,15 @@ public class PostController {
 	
 	
 	@GetMapping("/")
-	public String findAll(Model model) { // Model : request, response, session이 안에 다 포함되어있음
-		List<Post> posts = postService.전체찾기();
+	public String findAll(Model model,
+			@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+			@AuthenticationPrincipal PrincipalDetails principalDetails
+			) { // Model : request, response, session이 안에 다 포함되어있음
+		System.out.println("누구로 로그인 됬을 까");
+		System.out.println(principalDetails.isOauth());
+		System.out.println(principalDetails.getUser().getUsername());
+		
+		Page<Post> posts = postService.전체찾기(pageable);
 		model.addAttribute("posts", posts);
 		return "post/list";
 	}
@@ -43,7 +56,7 @@ public class PostController {
 		if(postEntity == null) {
 			return "post/saveForm";
 		}else {
-			return "redirect:/post";
+			return "redirect:/";
 		}
 	}
 

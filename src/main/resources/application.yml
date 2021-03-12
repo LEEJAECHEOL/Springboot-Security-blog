@@ -32,3 +32,16 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+      
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+             # 내가 구글쪽에 접속할 아이디
+            client-id: 721163011532-r7l27iiqgtd40tk0v6mad7uv4l93ai39.apps.googleusercontent.com
+            client-secret: h6cNCeDdapyZXfo8oK90F3rA
+            scope: # 이 구글에서 제공하는 정보가 먼지 물어봄.
+            - email
+            - profile
+      
