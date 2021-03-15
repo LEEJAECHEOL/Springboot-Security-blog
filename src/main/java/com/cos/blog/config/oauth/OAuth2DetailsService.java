@@ -1,5 +1,6 @@
 package com.cos.blog.config.oauth;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,6 +53,8 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 			auth2UserInfo = new GoogleInfo(oauth2User.getAttributes());	
 		} else if(userRequest.getClientRegistration().getClientName().equals("Facebook")) {
 			auth2UserInfo = new FacebookInfo(oauth2User.getAttributes());
+		} else if(userRequest.getClientRegistration().getClientName().equals("Naver")) {
+			auth2UserInfo = new NaverInfo((Map)oauth2User.getAttributes().get("response"));
 		}
 		
 		// 2. 최초 : 회원가입 + 로그인,  최초가 아닐 때 : 로그
