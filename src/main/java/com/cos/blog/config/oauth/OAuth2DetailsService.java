@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.cos.blog.config.auth.PrincipalDetails;
+import com.cos.blog.domain.user.RoleType;
 import com.cos.blog.domain.user.User;
 import com.cos.blog.domain.user.UserRepository;
 
@@ -55,7 +56,9 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 			auth2UserInfo = new FacebookInfo(oauth2User.getAttributes());
 		} else if(userRequest.getClientRegistration().getClientName().equals("Naver")) {
 			auth2UserInfo = new NaverInfo((Map)oauth2User.getAttributes().get("response"));
-		}
+		}  else if(userRequest.getClientRegistration().getClientName().equals("Kakao")) {
+			auth2UserInfo = new KakaoInfo(oauth2User.getAttributes());
+		} 
 		
 		// 2. 최초 : 회원가입 + 로그인,  최초가 아닐 때 : 로그
 		User userEntity = userRepository.findByUsername(auth2UserInfo.getUsername());
@@ -68,6 +71,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 					.username(auth2UserInfo.getUsername())
 					.password(encPassword)
 					.email(auth2UserInfo.getEmail())
+					.role(RoleType.USER)
 					.build();
 			userEntity = userRepository.save(user);
 			return new PrincipalDetails(userEntity, oauth2User.getAttributes());

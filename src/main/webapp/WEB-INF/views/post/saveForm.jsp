@@ -10,11 +10,17 @@
 	  </div>
 	  
 	  <div class="form-group">
-	    <textarea rows="" cols="5" class="form-control" name="content"></textarea>
+	    <textarea id="summernote" rows="" cols="5" class="form-control" name="content"></textarea>
 	  </div>
 	  
 	  <button type="submit" class="btn btn-primary">작성</button>
 	</form>
+    <script>
+      $('#summernote').summernote({
+        tabsize: 2,
+        height: 300
+      });
+    </script>
 </div>
 	
 	
