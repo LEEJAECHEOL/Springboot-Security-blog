@@ -15,6 +15,13 @@
 	  
 	  <button type="submit" class="btn btn-primary">작성</button>
 	</form>
+	<script>
+		window.onpageshow = function (event) { 
+	       if (event.persisted) { 
+	            $("#summernote").text($("#녀summernote".val())
+	       }
+	    }
+	</script>
     <script>
       $('#summernote').summernote({
         tabsize: 2,

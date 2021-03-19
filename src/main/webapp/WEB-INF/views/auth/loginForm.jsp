@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card" style="min-width:500px;">
                 <form action="/login" method="POST" class="box">
                     <h1>Login</h1>
                     <p class="text-muted"> Please enter your login and password!</p> 

@@ -45,8 +45,8 @@
 				<c:forEach var="reply" items="${post.replys }">
 					<div id="reply-${reply.id }" class="card d-flex flex-column mt-2 p-2">
 						<div class="d-flex justify-content-between p-2">
-							<div class="font-italic p-2">${reply.user.username }</div>
-							<c:if test="${post.user.id == principal.user.id }">
+							<div class="font-italic p-2"><i class="fas fa-user mr-2"></i>${reply.user.username }</div>
+							<c:if test="${reply.user.id == principal.user.id }">
 								<button onClick="deleteReply(${reply.id})" class="badge btn"><i class="far fa-trash-alt"></i></button>
 							</c:if>
 						</div>

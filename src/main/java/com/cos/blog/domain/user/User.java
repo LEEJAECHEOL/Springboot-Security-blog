@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,12 +29,15 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "유저네임을 입력해주세요.")
 	@Column(nullable = false, length = 100, unique = true)
 	private String username;
 	
+	@NotBlank(message = "비밀번호를 입력해주세요.")
 	@Column(nullable = false, length = 100)
 	private String password;
 	
+	@NotBlank(message = "이메일을 입력해주세요.")
 	@Column(nullable = false, length = 50)
 	private String email;
 	

@@ -15,12 +15,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.blog.domain.reply.Reply;
-import com.cos.blog.domain.user.RoleType;
 import com.cos.blog.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -40,9 +41,11 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "제목을 입력해주세요.")
 	@Column(nullable = false, length= 100)
 	private String title;
 	
+	@NotBlank(message = "내용을 입력해주세요.")
 	@Lob // 대용량 데이터
 	private String content;
 	
